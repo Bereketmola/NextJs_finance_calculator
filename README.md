@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FinWise — Finance Calculators
+
+A modern, responsive landing page for two everyday financial tools:
+
+- **Mortgage Repayment Calculator** — estimate your monthly repayment, total interest and total repaid over the life of a home loan.
+- **Compound Interest Calculator** — project how savings or investments grow over time with regular contributions and compound interest.
+
+Both calculators are fully interactive: move the sliders and results (including a growth chart) update instantly, right in the browser. No sign-up, no server, no data leaves your device.
+
+## Features
+
+- Clean, conversion-focused landing page with hero, per-calculator benefit sections, FAQ and CTAs.
+- Live, slider-driven calculators with formatted currency output.
+- Stacked area chart visualising contributions vs. interest earned over time.
+- Fully responsive layout with a mobile navigation sheet.
+- Accessible: semantic landmarks, skip link, labelled controls, keyboard-friendly components and reduced-motion support.
+- Dark-mode-ready design tokens.
+
+## Tech Stack
+
+- [Next.js 16](https://nextjs.org) (App Router, React Server Components)
+- [React 19](https://react.dev)
+- [TypeScript](https://www.typescriptlang.org)
+- [Tailwind CSS v4](https://tailwindcss.com)
+- [shadcn/ui](https://ui.shadcn.com) components built on [Base UI](https://base-ui.com)
+- [Recharts](https://recharts.org) for charts
+- [lucide-react](https://lucide.dev) icons
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and start the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the app. The page hot-reloads as you edit files.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js 20 or newer
+- npm (or your preferred package manager)
 
-## Learn More
+## Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Script          | Description                          |
+| --------------- | ------------------------------------ |
+| `npm run dev`   | Start the development server         |
+| `npm run build` | Create an optimized production build |
+| `npm run start` | Run the production build             |
+| `npm run lint`  | Lint the project with ESLint         |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+├── app/
+│   ├── layout.tsx    # Root layout, fonts and metadata
+│   ├── page.tsx      # Landing page (header, hero, sections, FAQ, footer)
+│   └── globals.css   # Tailwind import + design tokens (brand, charts)
+├── components/
+│   ├── mortgage-calculator.tsx          # Mortgage calculator card
+│   ├── compound-interest-calculator.tsx # Compound interest calculator card
+│   ├── growth-chart.tsx                 # Recharts area chart wrapper
+│   ├── hero-preview.tsx                 # Hero visual card
+│   └── ui/                              # shadcn/ui components
+└── lib/
+    ├── finance.ts    # Calculation formulas and types
+    ├── format.ts     # Currency and percentage formatters
+    └── utils.ts      # Shared `cn` class-name helper
+```
 
-## Deploy on Vercel
+## How the Calculators Work
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Mortgage** uses the standard amortisation formula
+  `M = P · r(1 + r)ⁿ / ((1 + r)ⁿ − 1)`, where `P` is the loan amount, `r` the monthly interest rate and `n` the number of monthly payments.
+- **Compound interest** compounds monthly and adds monthly contributions, returning a year-by-year series so growth can be charted.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All calculations live in [`src/lib/finance.ts`](src/lib/finance.ts) as pure functions, so they are easy to test or reuse.
+
+> Results are estimates for planning only. Lender fees, insurance, taxes, inflation and investment fees are not included.
+
+## Customization
+
+Brand colors are defined as semantic tokens in [`src/app/globals.css`](src/app/globals.css):
+
+- `--brand` / `--brand-foreground` — the green accent used across the UI.
+- `--chart-1` … `--chart-5` — the chart color ramp.
+
+Update these values (for both light and dark themes) to re-theme the site without touching component code.
+
+## Deploy
+
+This is a standard Next.js app and can be deployed to any platform that supports it. The easiest option is [Vercel](https://vercel.com/new):
+
+```bash
+npm run build
+npm run start
+```
+
+See the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
