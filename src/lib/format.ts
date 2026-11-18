@@ -4,6 +4,13 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
+const preciseCurrencyFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
 const compactCurrencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
@@ -14,6 +21,11 @@ const compactCurrencyFormatter = new Intl.NumberFormat("en-US", {
 /** Format a number as whole-dollar currency, e.g. `$1,846`. */
 export function formatCurrency(value: number): string {
   return currencyFormatter.format(Number.isFinite(value) ? value : 0);
+}
+
+/** Format a number as currency with cents, e.g. `$1,846.15`. */
+export function formatCurrencyPrecise(value: number): string {
+  return preciseCurrencyFormatter.format(Number.isFinite(value) ? value : 0);
 }
 
 /** Format a number as compact currency, e.g. `$84.2K`. */

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { HouseIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -148,10 +149,16 @@ export function MortgageCalculator() {
         </div>
       </CardContent>
 
-      <CardFooter>
+      <CardFooter className="justify-between gap-3">
         <p className="text-xs text-muted-foreground">
           Estimates only. Lender fees, insurance and taxes are not included.
         </p>
+        <Link
+          href="/mortgage-repayments-calculator#amortization"
+          className="shrink-0 rounded text-xs font-medium text-brand outline-none transition-colors hover:text-brand/80 focus-visible:ring-3 focus-visible:ring-ring/50"
+        >
+          Full schedule
+        </Link>
       </CardFooter>
     </Card>
   );

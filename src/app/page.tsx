@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   ArrowRightIcon,
   BadgeCheckIcon,
   CheckIcon,
   ClockIcon,
-  LandmarkIcon,
-  MenuIcon,
   PiggyBankIcon,
   ShieldCheckIcon,
   SparklesIcon,
@@ -28,33 +27,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { CompoundInterestCalculator } from "@/components/compound-interest-calculator";
 import { HeroPreview } from "@/components/hero-preview";
 import { MortgageCalculator } from "@/components/mortgage-calculator";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   title: "FinWise — Mortgage & Compound Interest Calculators",
   description:
     "Free, simple tools to estimate your mortgage repayments and project how your savings grow with compound interest. No sign-up required.",
 };
-
-const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Calculators", href: "#calculators" },
-  { label: "Why FinWise", href: "#why" },
-  { label: "FAQ", href: "#faq" },
-];
 
 const mortgageBenefits = [
   {
@@ -71,6 +54,11 @@ const mortgageBenefits = [
     title: "Understand the true cost",
     description:
       "Total interest and the amount repaid are shown alongside your monthly figure.",
+  },
+  {
+    title: "See every payment",
+    description:
+      "Open the full calculator for a month-by-month amortisation schedule.",
   },
 ];
 
@@ -146,97 +134,6 @@ const faqs = [
       "Use them to understand affordability and compare scenarios. When you are ready to apply, your lender or adviser will confirm the exact numbers.",
   },
 ];
-
-function Logo() {
-  return (
-    <a
-      href="#home"
-      className="flex items-center gap-2 rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-    >
-      <span className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground">
-        <LandmarkIcon className="size-4.5" />
-      </span>
-      <span className="font-heading text-lg font-semibold tracking-tight">
-        FinWise
-      </span>
-    </a>
-  );
-}
-
-function SiteHeader() {
-  return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Logo />
-
-        <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
-          {navLinks.map((link) => (
-            <Button
-              key={link.href}
-              variant="ghost"
-              render={<a href={link.href} />}
-              nativeButton={false}
-            >
-              {link.label}
-            </Button>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <Button
-            className="hidden sm:inline-flex"
-            render={<a href="#calculators" />}
-            nativeButton={false}
-          >
-            Explore calculators
-            <ArrowRightIcon data-icon="inline-end" />
-          </Button>
-
-          <Sheet>
-            <SheetTrigger
-              render={
-                <Button variant="outline" size="icon" className="md:hidden" />
-              }
-            >
-              <MenuIcon />
-              <span className="sr-only">Open navigation menu</span>
-            </SheetTrigger>
-            <SheetContent side="right">
-              <SheetHeader>
-                <SheetTitle>Navigate</SheetTitle>
-                <SheetDescription className="sr-only">
-                  Site navigation links
-                </SheetDescription>
-              </SheetHeader>
-              <nav aria-label="Mobile" className="flex flex-col gap-1 px-4">
-                {navLinks.map((link) => (
-                  <SheetClose
-                    key={link.href}
-                    render={
-                      <a
-                        href={link.href}
-                        className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50"
-                      />
-                    }
-                    nativeButton={false}
-                  >
-                    {link.label}
-                  </SheetClose>
-                ))}
-              </nav>
-              <SheetFooter>
-                <Button render={<a href="#calculators" />} nativeButton={false}>
-                  Explore calculators
-                  <ArrowRightIcon data-icon="inline-end" />
-                </Button>
-              </SheetFooter>
-            </SheetContent>
-          </Sheet>
-        </div>
-      </div>
-    </header>
-  );
-}
 
 function Hero() {
   return (
@@ -413,10 +310,10 @@ function Calculators() {
             <BenefitList items={mortgageBenefits} />
             <div>
               <Button
-                render={<a href="#mortgage-calculator" />}
+                render={<Link href="/mortgage-repayments-calculator" />}
                 nativeButton={false}
               >
-                Estimate my repayment
+                Open the mortgage calculator
                 <ArrowRightIcon data-icon="inline-end" />
               </Button>
             </div>
@@ -608,75 +505,6 @@ function FinalCta() {
         </div>
       </div>
     </section>
-  );
-}
-
-function SiteFooter() {
-  const footerLinks = [
-    { label: "Mortgage repayment calculator", href: "#mortgage" },
-    { label: "Compound interest calculator", href: "#compound" },
-  ];
-
-  return (
-    <footer className="border-t border-border/60">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
-          <div className="flex max-w-xs flex-col gap-3">
-            <Logo />
-            <p className="text-sm text-muted-foreground">
-              Simple, powerful financial tools for clearer decisions — from
-              mortgage repayments to long-term growth.
-            </p>
-          </div>
-
-          <nav aria-label="Navigate" className="flex flex-col gap-3">
-            <h2 className="text-sm font-medium">Navigate</h2>
-            <ul className="flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="rounded text-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <nav aria-label="Calculators" className="flex flex-col gap-3">
-            <h2 className="text-sm font-medium">Calculators</h2>
-            <ul className="flex flex-col gap-2">
-              {footerLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="rounded text-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-
-        <Separator className="my-8" />
-
-        <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
-          <p className="text-sm text-muted-foreground">
-            © 2026 FinWise. All rights reserved.
-          </p>
-          <a
-            href="#home"
-            className="rounded text-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
-          >
-            Back to top
-          </a>
-        </div>
-      </div>
-    </footer>
   );
 }
 
